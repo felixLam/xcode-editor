@@ -111,9 +111,9 @@ subProjectDefinition = [XCSubProjectDefinition withName:@"mySubproject" projPath
 You've just read them! The Source/Tests folder contains further usasge examples. A good starting point is to run the test target in Xcode.
 This will extract a test project to the /tmp directory, where you'll be able to see the outcome for yourself. 
 
-* <a href="https://github.com/expanz/xcode-editor/wiki">Wiki</a>
-* <a href="http://expanz.github.com/xcode-editor/api/index.html">API</a>
-* <a href="http://expanz.github.com/xcode-editor/coverage/index.html">Coverage Reports</a>
+* <a href="https://github.com/jasperblues/xcode-editor/wiki">Wiki</a>
+* <a href="http://jasperblues.github.com/xcode-editor/api/index.html">API</a>
+* <a href="http://jasperblues.github.com/xcode-editor/coverage/index.html">Coverage Reports</a>
 
 # Building 
 
@@ -152,14 +152,14 @@ If you're using the API shoot me an email and tell me what you're doing with it.
 
 * Xcode-editor has been tested on Xcode 4+. It should also work on earlier versions of Xcode. 
 * The AppCode IDE from JetBrains is now supported too! 
-* Uses ARC and weak references so requires OSX 64 bit, and iOS 5. (Non ARC version coming soon.)
-
+* Supports both ARC and MRR modes of memory management.
 
 # Who's using it? 
 
 * <a href="http://www.expanz.com">expanz</a>: A RAD framework that enables .NET developers in producing cross-platform and cloud apps. 
 * <a href="http://www.lesspainful.com">Less Painful</a>: Automated functional testing for mobile applications. 
 * <a href="http://www.levelhelper.org">Level Helper</a>: A RAD framework for developing 2D games on iOS & Android. 
+* <a href="http://macromates.com/">Text Mate</a>: The missing Text Editor for OSX.
 
 # Authors
 
@@ -167,6 +167,7 @@ If you're using the API shoot me an email and tell me what you're doing with it.
          
 ### With contributions from: 
 
+* Zach Drayer - lots of fixes and features to support TextMate. 
 * Janine Ohmer - support adding and removing sub-projects (http://www.synapticats.com).
 * Bogdan Vladu - support adding and removing groups (www.levelhelper.org).
 * Chris Ross of Hidden Memory (http://www.hiddenmemory.co.uk/)
@@ -179,6 +180,6 @@ Thanks!
 
 Apache License, Version 2.0, January 2004, http://www.apache.org/licenses/
 
-* © 2011 - 2012 expanz.com
+* © 2011 - 2012 jasper blues
 
-  
+

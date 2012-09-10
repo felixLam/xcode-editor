@@ -1,32 +1,37 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
+
 
 #import <Foundation/Foundation.h>
 
 @class XCProject;
 @class XCSourceFile;
+@class XCBuildConfigurationList;
 
 /**
 * Represents a target in an xcode project.
 */
 @interface XCTarget : NSObject {
 
-    __weak XCProject* _project;
+    XCProject* _project;
     NSString* _key;
     NSString* _name;
     NSString* _productName;
     NSString* _productReference;
+	 NSString* _defaultConfigurationName;
 
 @private
     NSMutableArray* _members;
+    NSMutableArray* _resources;
+    NSMutableDictionary* _configurations;
 }
 
 @property(nonatomic, strong, readonly) NSString* key;
@@ -38,7 +43,11 @@
 
 - (id) initWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName productReference:(NSString*)productReference;
 
+- (NSArray*) resources;
 - (NSArray*) members;
+
+- (NSDictionary*) configurations;
+- (XCBuildConfigurationList*)defaultConfiguration;	
 
 - (void) addMember:(XCSourceFile*)member;
 

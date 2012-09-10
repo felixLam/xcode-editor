@@ -1,17 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+
 #import "XCSourceFile.h"
 #import "XCTarget.h"
-#import "XCKeyBuilder.h"
+#import "Utils/XCKeyBuilder.h"
 #import "XCProject+SubProject.h"
 #import "XCSubProjectDefinition.h"
 
@@ -52,7 +54,7 @@
                 NSString* path = (NSString*) [obj valueForKey:@"path"];
                 if (type != Bundle || [[path pathExtension] isEqualToString:@"bundle"]) {
                     [results addObject:[XCSourceFile sourceFileWithProject:self key:key type:type name:path
-                                               sourceTree:nil]];
+                                               sourceTree:nil path:nil]];
                 }
             }
         }
@@ -131,7 +133,7 @@
     }];
     if (singleton && [returnValue count] > 1) {
         [NSException raise:NSGenericException
-                format:@"Searched for one instance of member type %@ with value %@, but found %d", [NSString stringFromMemberType:memberType], identifier, [returnValue count]];
+                format:@"Searched for one instance of member type %@ with value %@, but found %ld", [NSString stringFromMemberType:memberType], identifier, [returnValue count]];
     }
     if (required && [returnValue count] == 0) {
         [NSException raise:NSGenericException
@@ -152,7 +154,7 @@
 
 // returns the key of the PBXContainerItemProxy for the given name and proxy type. nil if not found.
 - (NSString*) containerItemProxyKeyForName:(NSString*)name proxyType:(NSString*)proxyType {
-    NSMutableArray* results;
+    NSMutableArray* results = [[NSMutableArray alloc] init];
     [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSDictionary* obj, BOOL* stop) {
         if ([[obj valueForKey:@"isa"] asMemberType] == PBXContainerItemProxy) {
             NSString* remoteInfo = [obj valueForKey:@"remoteInfo"];
@@ -164,7 +166,7 @@
     }];
     if ([results count] > 1) {
         [NSException raise:NSGenericException
-                format:@"Searched for one instance of member type %@ with value %@, but found %d", @"PBXContainerItemProxy", [NSString stringWithFormat:@"%@ and proxyType of %@", name, proxyType], [results count]];
+                format:@"Searched for one instance of member type %@ with value %@, but found %ld", @"PBXContainerItemProxy", [NSString stringWithFormat:@"%@ and proxyType of %@", name, proxyType], [results count]];
     }
     if ([results count] == 0) {
         return nil;
@@ -275,7 +277,7 @@
 // remove the PBXContainerItemProxy and PBXReferenceProxy objects for the given object key (which is the PBXFilereference
 // for the xcodeproj file)
 - (void) removeProxies:(NSString*)xcodeprojKey {
-    NSMutableArray* keysToDelete = [[NSMutableArray alloc] init];
+    NSMutableArray* keysToDelete = [NSMutableArray array];
     // use the xcodeproj's PBXFileReference key to get the PBXContainerItemProxy keys
     NSArray* containerItemProxyKeys =
             [self keysForProjectObjectsOfType:PBXContainerItemProxy withIdentifier:xcodeprojKey singleton:NO
@@ -313,7 +315,7 @@
 - (void) removeFromProjectReferences:(NSString*)key forProductsGroup:(NSString*)productsGroupKey {
     NSMutableArray* projectReferences = [[self PBXProjectDict] valueForKey:@"projectReferences"];
     // remove entry from PBXProject's projectReferences
-    NSMutableArray* referencesToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray* referencesToRemove = [NSMutableArray array];
     for (NSDictionary* projectRef in projectReferences) {
         if ([[projectRef valueForKey:@"ProjectRef"] isEqualToString:key]) {
             [referencesToRemove addObject:projectRef];

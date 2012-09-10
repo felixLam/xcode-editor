@@ -1,13 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+
 
 #import <Foundation/Foundation.h>
 #import "XcodeMemberType.h"
@@ -19,8 +21,10 @@
 @class XCSourceFile;
 @class XCTarget;
 @class XCSubProjectDefinition;
+@class XCBuildConfigurationList;
 
 
+__attribute__((__visibility__("default")))
 @interface XCProject : NSObject {
 
 @private
@@ -29,6 +33,12 @@
     NSString* _filePath;
     NSMutableDictionary* _dataStore;
     NSMutableArray* _targets;
+
+    NSMutableDictionary* _groups;
+    NSMutableDictionary* _configurations;
+
+	 NSString* _defaultConfigurationName;
+	 NSString* _rootObjectKey;
 }
 
 @property(nonatomic, strong, readonly) XCFileOperationQueue* fileOperationQueue;
@@ -99,6 +109,11 @@
 - (XCGroup*) rootGroup;
 
 /**
+ * Returns the root (top-level) groups, if there are multiple. An array of rootGroup if there is only one.
+ */
+- (NSArray*) rootGroups;
+
+/**
 * Returns the group with the given key, or nil.
 */
 - (XCGroup*) groupWithKey:(NSString*)key;
@@ -113,6 +128,11 @@
 */
 - (XCGroup*) groupForGroupMemberWithKey:(NSString*)key;
 
+/**
+ * Returns the parent group for the group or file with the source file
+ */
+- (XCGroup*) groupWithSourceFile:(XCSourceFile*)sourceFile;
+
 /* ================================================================================================================== */
 #pragma mark Targets
 /**
@@ -124,6 +144,15 @@
 * Returns the target with the specified name, or nil. 
 */
 - (XCTarget*) targetWithName:(NSString*)name;
+
+#pragma mark Configurations
+
+/**
+* Returns the target with the specified name, or nil. 
+*/
+- (NSDictionary*) configurations;
+- (NSDictionary*) configurationWithName:(NSString*)name;
+- (XCBuildConfigurationList*)defaultConfiguration;
 
 /* ================================================================================================================== */
 #pragma mark Saving
