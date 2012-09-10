@@ -1,17 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  Synapticats, LLC
-//  Copyright 2012 Synapticats, LLC
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz and Synapticats, LLC permit you to use, modify, and distribute 
-//  this file in accordance with the terms of the license agreement accompanying it.
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+
 #import <Foundation/Foundation.h>
 #import "XCAbstractDefinition.h"
-#import <XcodeEditor/XcodeSourceFileType.h>
+#import "XcodeSourceFileType.h"
 
 @class XCProject;
 
@@ -22,8 +24,10 @@
     NSString* _path;
     XcodeSourceFileType _type;
     XCProject* _subProject;
+    XCProject* _parentProject;
     NSString* _key;
     NSString* _fullProjectPath;
+    NSString* _relativePath;
 }
 
 

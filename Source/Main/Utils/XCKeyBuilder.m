@@ -1,22 +1,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+
 #import "XCKeyBuilder.h"
+#import "XCMemoryUtils.h"
 
 @implementation XCKeyBuilder
 
 /* ================================================= Class Methods ================================================== */
 + (XCKeyBuilder*) forItemNamed:(NSString*)name {
     NSData* data = [name dataUsingEncoding:NSUTF8StringEncoding];
-    return [[XCKeyBuilder alloc] initHashValueMD5HashWithBytes:[data bytes] length:[data length]];
+    return XCAutorelease([[XCKeyBuilder alloc] initHashValueMD5HashWithBytes:[data bytes] length:[data length]]);
 
 }
 

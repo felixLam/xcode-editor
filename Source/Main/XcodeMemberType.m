@@ -1,17 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 
+
+
 #import "XcodeMemberType.h"
-#import "XCEnumUtils.h"
+#import "Utils/XCEnumUtils.h"
 
 @implementation NSDictionary (XcodeMemberType)
 
@@ -21,7 +23,7 @@ static NSDictionary * _projectNodeTypesAsStrings;
    // This is the most vital operation on adding 500+ files
    // So, we caching this dictionary
    if (!_projectNodeTypesAsStrings) {
-      _projectNodeTypesAsStrings =  [NSDictionary dictionaryWithObjectsAndKeys:boxEnum(PBXNilType), @"PBXNilType",
+      _projectNodeTypesAsStrings =  [[NSDictionary alloc] initWithObjectsAndKeys:boxEnum(PBXNilType), @"PBXNilType",
                                                                                boxEnum(PBXBuildFile), @"PBXBuildFile",
                                                                                boxEnum(PBXContainerItemProxy), @"PBXContainerItemProxy",
                                                                                boxEnum(PBXCopyFilesBuildPhase), @"PBXCopyFilesBuildPhase",

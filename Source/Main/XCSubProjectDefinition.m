@@ -1,17 +1,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  Synapticats, LLC
-//  Copyright 2012 Synapticats, LLC
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz and Synapticats, LLC permit you to use, modify, and distribute 
-//  this file in accordance with the terms of the license agreement accompanying it.
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+
 
 #import "XCProject.h"
 #import "XCProject+SubProject.h"
 #import "XCSubProjectDefinition.h"
+#import "Utils/XCMemoryUtils.h"
 
 @interface XCSubProjectDefinition ()
 @property(nonatomic, strong, readwrite) NSString* relativePath;
@@ -32,7 +35,7 @@
 + (XCSubProjectDefinition*) withName:(NSString*)name path:(NSString*)path
         parentProject:(XCProject*)parentProject {
 
-    return [[XCSubProjectDefinition alloc] initWithName:name path:path parentProject:parentProject];
+    return XCAutorelease([[XCSubProjectDefinition alloc] initWithName:name path:path parentProject:parentProject])
 }
 
 /* ================================================== Initializers ================================================== */
@@ -45,10 +48,23 @@
         _name = [name copy];
         _path = [path copy];
         _type = XcodeProject;
-        _parentProject = parentProject;
+        _parentProject = XCRetain(parentProject)
         _subProject = [[XCProject alloc] initWithFilePath:[NSString stringWithFormat:@"%@/%@.xcodeproj", path, name]];
     }
     return self;
+}
+
+- (void) dealloc {
+	XCRelease(_name)
+	XCRelease(_name)
+	XCRelease(_path)
+	XCRelease(_parentProject)
+	XCRelease(_subProject)
+	XCRelease(_relativePath)
+	XCRelease(_key)
+	XCRelease(_fullProjectPath)
+
+	XCSuperDealloc
 }
 
 /* ================================================ Interface Methods =============================================== */
@@ -83,18 +99,18 @@
     if (_key == nil) {
         NSArray* xcodeprojKeys = [_parentProject keysForProjectObjectsOfType:PBXFileReference
                 withIdentifier:[self pathRelativeToProjectRoot] singleton:YES required:YES];
-        _key = [xcodeprojKeys objectAtIndex:0];
+        _key = [[xcodeprojKeys objectAtIndex:0] copy];
     }
-    return _key;
+    return XCAutorelease([_key copy])
 }
 
 - (void) initFullProjectPath:(NSString*)fullProjectPath groupPath:(NSString*)groupPath {
     if (groupPath != nil) {
-        NSMutableArray* fullPathComponents = [[fullProjectPath pathComponents] mutableCopy];
+        NSMutableArray* fullPathComponents = XCAutorelease([[fullProjectPath pathComponents] mutableCopy])
         [fullPathComponents removeLastObject];
         fullProjectPath = [[NSString pathWithComponents:fullPathComponents] stringByAppendingFormat:@"/%@", groupPath];
     }
-    _fullProjectPath = fullProjectPath;
+    _fullProjectPath = [fullProjectPath copy];
 
 }
 
@@ -105,9 +121,9 @@
         if (_fullProjectPath == nil) {
             [NSException raise:NSInvalidArgumentException format:@"fullProjectPath has not been set"];
         }
-        NSMutableArray* projectPathComponents = [[_fullProjectPath pathComponents] mutableCopy];
+        NSMutableArray* projectPathComponents = XCAutorelease([[_fullProjectPath pathComponents] mutableCopy]);
         NSArray* objectPathComponents = [[self fullPathName] pathComponents];
-        NSString* convertedPath = [[NSString alloc] init];
+        NSString* convertedPath = @"";
 
         // skip over path components from root that are equal
         NSInteger limit = ([projectPathComponents count] < [objectPathComponents count]) ? [projectPathComponents count] :
@@ -132,13 +148,13 @@
         }
         _relativePath = [[convertedPath stringByAppendingString:[objectPathComponents lastObject]] copy];
     }
-    return _relativePath;
+    return XCAutorelease([_relativePath copy]);
 }
 
 
 /* ================================================== Utility Methods =============================================== */
 - (NSString*) description {
-    return [NSString stringWithFormat:@"XcodeprojDefinition: sourceFileName = %@, path=%@, type=%u", _name, _path, _type];
+    return [NSString stringWithFormat:@"XcodeprojDefinition: sourceFileName = %@, path=%@, type=%d", _name, _path, _type];
 }
 
 @end

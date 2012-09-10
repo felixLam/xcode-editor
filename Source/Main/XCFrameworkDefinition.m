@@ -1,15 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  EXPANZ
-//  Copyright 2008-2011 EXPANZ
+//  JASPER BLUES
+//  Copyright 2012 Jasper Blues
 //  All Rights Reserved.
 //
-//  NOTICE: Expanz permits you to use, modify, and distribute this file
+//  NOTICE: Jasper Blues permits you to use, modify, and distribute this file
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#import "XCFrameworkDefinition.h"
 
+
+
+#import "XCFrameworkDefinition.h"
+#import "Utils/XCMemoryUtils.h"
 
 @implementation XCFrameworkDefinition
 
@@ -20,7 +23,7 @@
 + (XCFrameworkDefinition*) frameworkDefinitionWithFilePath:(NSString*)filePath
         copyToDestination:(BOOL)copyToDestination {
 
-    return [[XCFrameworkDefinition alloc] initWithFilePath:filePath copyToDestination:copyToDestination];
+    return XCAutorelease([[XCFrameworkDefinition alloc] initWithFilePath:filePath copyToDestination:copyToDestination])
 }
 
 
@@ -40,5 +43,10 @@
 }
 
 
+/* ================================================== Deallocation ================================================== */
+- (void) dealloc {
+	XCRelease(_filePath)
 
+	XCSuperDealloc
+}
 @end
